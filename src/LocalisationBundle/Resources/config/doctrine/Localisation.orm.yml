@@ -1,0 +1,31 @@
+LocalisationBundle\Entity\Localisation:
+    type: entity
+    table: null
+    repositoryClass: LocalisationBundle\Repository\LocalisationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        dateLoc:
+            type: date
+            column: date_loc
+        adresseDebut:
+            type: string
+            length: 255
+            column: adresse_debut
+        adresseFin:
+            type: string
+            length: 255
+            column: adresse_fin
+        prix:
+            type: float
+        idC:
+            type: integer
+            column: id_c
+        idAction:
+            type: integer
+            column: id_action
+    lifecycleCallbacks: {  }

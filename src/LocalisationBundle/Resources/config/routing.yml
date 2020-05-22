@@ -1,0 +1,12 @@
+localisation_homepage:
+    path:     /index
+    defaults: { _controller: LocalisationBundle:Default:index }
+afficher:
+    path:     /afficher
+    defaults: { _controller: LocalisationBundle:Localisation:afficher }
+create:
+    path:     /create/{adresse_debut}/{adresse_fin}/{prix}
+    defaults: { _controller: LocalisationBundle:Localisation:create }
+new2:
+    path:     /new2
+    defaults: { _controller: LocalisationBundle:Localisation:new2 }

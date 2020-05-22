@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Display driving directions</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 20%; bottom: 0; width: 100%; }
+    </style>
+</head>
+<body>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
+<link
+        rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+        type="text/css"
+/>
+ <button onclick="getvalue()" > clicl me</button><div id="map"></div>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2hhc3NlbjE5OTciLCJhIjoiY2s4aW1saHJuMDJ2ajNmcWx4ZHhpMG16MyJ9.O3lzyifzIqeos9E63JTlzQ';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [	10.956, 	36.498],
+        zoom: 8
+    });
+
+    var directions=new MapboxDirections({
+        accessToken: mapboxgl.accessToken,
+        profile:'mapbox/driving',
+        unit:  'metric',
+        placeholderOrigin: 'Adresse depart',
+        placeholderDestination:'Adresse arrivee',
+
+
+    });
+
+    map.addControl(directions, 'top-right');
+    var geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+
+        },
+        trackUserLocation: false
+    });
+    // Add the control to the map.
+    map.addControl(geolocate,'top-left');
+    // Set an event listener that fires
+    // when a geolocate event occurs.
+    geolocate.on('geolocate', function(geolocate) {
+        navigator.geolocation.getCurrentPosition(success);
+            directions.setOrigin(geolocate.data());
+        geolocate.off();
+
+    });
+    geolocate.off('geolocate',function () {
+
+        directions.setOrigin("");
+    });
+    function success(pos) {
+        var crd = pos.coords;
+        directions.setOrigin(crd.longitude+","+crd.latitude);
+        //alert(crd.longitude+"/"+crd.latitude);
+        }
+function getvalue(){
+        var t=directions.container.lastElementChild.
+            firstElementChild.firstElementChild.firstElementChild.outerText;
+      //alert(directions.getOrigin(). geometry["coordinates"]+t.substring(0,t.length-2));
+      var v="http://127.0.0.1:82/pidev/web/app_dev.php/create/"+directions.getOrigin(). geometry["coordinates"]+"/"
+        +directions.getDestination(). geometry["coordinates"]+"/"+t.substring(0,t.length-2);
+
+
+ //v.link(v);
+    window.location.href = v;
+
+}
+</script>
+
+</body>
+</html>
